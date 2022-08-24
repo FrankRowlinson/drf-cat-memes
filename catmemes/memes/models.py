@@ -1,17 +1,27 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.template.defaultfilters import slugify
 
 
 class Meme(models.Model):
     title = models.CharField(max_length=150)
     created_at = models.DateTimeField(auto_now_add=True)
     is_public = models.BooleanField(default=True)
+    photo = models.ImageField()
+    slug = models.SlugField()
     author = models.ForeignKey(
         User, 
         blank=True, 
         null=True, 
         on_delete=models.SET_NULL
         )
+
+    def save(self, *args, **kwargs):
+        if not self.id:
+            # Newly created object, set slug
+            self.slug = slugify(self.title)
+
+        super(Meme, self).save(*args, **kwargs)
 
 
 class Comment(models.Model):
