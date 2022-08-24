@@ -7,7 +7,7 @@ class Meme(models.Model):
     title = models.CharField(max_length=150)
     created_at = models.DateTimeField(auto_now_add=True)
     is_public = models.BooleanField(default=True)
-    photo = models.ImageField()
+    photo = models.ImageField(upload_to='pictures/%Y_%m/')
     slug = models.SlugField()
     author = models.ForeignKey(
         User, 
@@ -15,6 +15,9 @@ class Meme(models.Model):
         null=True, 
         on_delete=models.SET_NULL
         )
+
+    def __str__(self) -> str:
+        return self.title
 
     def save(self, *args, **kwargs):
         if not self.id:
