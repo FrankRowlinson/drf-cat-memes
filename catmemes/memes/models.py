@@ -4,11 +4,11 @@ from django.template.defaultfilters import slugify
 
 
 class Meme(models.Model):
-    title = models.CharField(max_length=150)
+    title = models.CharField(max_length=150, unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
     is_public = models.BooleanField(default=True)
-    photo = models.ImageField(upload_to='pictures/%Y_%m/')
-    slug = models.SlugField()
+    photo = models.ImageField(upload_to='pictures/%Y_%m/', blank=True, null=True)
+    slug = models.SlugField(unique=True)
     author = models.ForeignKey(
         User, 
         blank=True, 
