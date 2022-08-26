@@ -1,9 +1,15 @@
+from rest_framework.generics import ListCreateAPIView
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.forms import model_to_dict
 
 from .models import Meme
 from .serializers import *
+
+
+class MemeListAPIView(ListCreateAPIView):
+    queryset = Meme.objects.all()
+    serializer_class = MemeSerializer
 
 
 class MemeAPIView(APIView):
@@ -25,7 +31,7 @@ class MemeAPIView(APIView):
         try:
             instance = Meme.objects.get(slug=slug)
         except:
-            Response({"error": "object not found"})
+            return Response({"error": "object not found"})
         
         serializer = MemeSerializer(data=request.data, instance=instance)
         serializer.is_valid(raise_exception=True)
