@@ -20,5 +20,6 @@ from memes.views import *
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/memelist/', MemeListAPIView.as_view()),
-    path('api/v1/memelist/<slug:slug>/', MemeAPIView.as_view()),
+    path('api/v1/memelist/<slug:slug>/', MemeUpdateAPIView.as_view()),
+    path('api/v1/meme/<slug:slug>/', MemeDetailAPIView.as_view()),
 ]
